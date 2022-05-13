@@ -1,0 +1,41 @@
+[{
+    "id": 1,
+    "title": "Workout",
+    "date": "24/5"
+}, {
+    "id": 2,
+    "title": "Dinner at Palace",
+    "date": "3/5"
+}, {
+    "id": 3,
+    "quote": "This is coming from node.js",
+    "author": "Henry via node.js"
+}, {
+    "id": 4,
+    "title": "Drinks with friends",
+    "date": "25/5"
+}, {
+    "id": 5,
+    "title": "Drinks with friends",
+    "date": "25/5"
+}, {
+    "id": 6,
+    "title": "Drinks with friends",
+    "date": "25/5"
+}, {
+    "id": 7,
+    "title": "Drinks with friends",
+    "date": "25/5"
+}, {
+    "id": 8,
+    "title": "Drinks with friends",
+    "date": "25/5"
+}, {
+    "id": 9,
+    "title": "Drinks with friends",
+    "date": "25/5"
+}, {
+    "id": 10,
+    "title": "Drinks with friends",
+    "date": "25/5"
+}]

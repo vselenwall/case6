@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar App</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="/styles/style.css">
+    
+</head>
+<body>
+
+
+    <%- include('partials/header.ejs') %> 
+
+    <main>
+
+        <div class="week-section">
+
+            <div class="week-header">
+            <div><i class="fa-solid fa-angle-left"></i></div>
+            <h3>Week 34</h3>
+            <div><i class="fa-solid fa-angle-right"></i></div>
+            </div>
+
+            <div class="weekdays">
+                <div class="mon">M</div>
+                <div class="tue">T</div>
+                <div class="wed">W</div>
+                <div class="thurs">T</div>
+                <div class="fri">F</div>
+                <div class="sat">S</div>
+                <div class="sun">S</div>
+            </div>
+        </div>
+    
+        <div class="events">
+        <form action="/default" method="get">
+            <label for="title">Title: </label><br>
+            <input type="text" id="title" name="title" required><br>
+            <label for="date">Date: </label><br>
+            <input type="text" id="date" name="date" required><br><br>
+            <input type="submit" id="addEvent" value="Create event">
+          </form> 
+
+          <div id="eventBox"></div>
+          <br>
+
+          <%= greeting %>
+          <%= locals %>
+
+        </div>
+
+          
+
+    </main>
+
+    <script src="server.js"></script>
+    <script src="test.js"></script>
+    
+</body>
+</html>
