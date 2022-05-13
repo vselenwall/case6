@@ -1,7 +1,7 @@
 
 import readline from 'readline';
 import express from "express";
-//import eventViews from "../views/quoteViews.js";
+import eventViews from "../views/eventViews.js";
 import eventModel from "../models/eventModel.js";
 
 export default {
@@ -18,17 +18,19 @@ export default {
     
             console.log(title, date);
             // Controller Method for creating new quote
-            const isOK = eventModel.addEvent(title, date);
+            //const isOK = eventModel.addEvent(title, date);
+
+            const check = eventModel.addEvent(title, date);
     
             // Check if something went wrong
-            if (!isOK) {
-                res.render("error", { message: "Could not save event" });
+            if (!check) {
+                res.render("404", { message: "Could not save event" });
                 return;
             }
 
-            res.render("events", { happening: eventModel.getEvents() });
+            res.render("index", { events: eventModel.readEvents() });
         },
         getAllEvents: (req, res) => {
-            res.render("events", { happening: eventModel.getEvents() });
-        },
+            res.render("index", { events: eventModel.readEvents() });
+        }
 }

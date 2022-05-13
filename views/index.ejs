@@ -38,9 +38,13 @@
                 <div class="sun">S</div>
             </div>
         </div>
+
+        <% locals.events.forEach(ele => { %>
+            <%- ele.title %> <%- ele.date %> 
+            <% }) %>
     
-        <div class="events">
-        <form action="/default" method="get">
+        <div class="event-creator">
+        <form action="/index" method="post">
             <label for="title">Title: </label><br>
             <input type="text" id="title" name="title" required><br>
             <label for="date">Date: </label><br>
@@ -51,8 +55,9 @@
           <div id="eventBox"></div>
           <br>
 
-          <%= greeting %>
           <%= locals %>
+    
+
 
         </div>
 

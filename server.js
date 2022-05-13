@@ -22,7 +22,7 @@ app.set('view engine', 'ejs');
 //app.use(express.json());
 
 //app.get('/search', quoteController.searchQuote);
-app.post('/default', eventController.createEvent);
+app.post('/index', eventController.createEvent);
 //app.put('/default/:title', eventController.updateQuote);
 
 app.get('/', eventController.getAllEvents);
@@ -40,11 +40,11 @@ app.use((req, res, next) => {
     next()
 });
 
-// LISTEN TO /DEFAULT
-app.get('/default', (req, res) => {
+// LISTEN TO /INDEX
+app.get('/index', (req, res) => {
    
     // processa innehållet från en ejs fil
-    res.render('default', {greeting: 'Hello'});
+    res.render('index', {greeting: 'Hello'});
 });
 
 
@@ -69,7 +69,7 @@ app.use('/default', routeDefault);*/
 // route request
 // -------------------------
 app.get('/', (req, res) => {
-    res.render('default');
+    res.render('index');
 });
 
 // serve static files

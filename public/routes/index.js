@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.route('/')
     .get((req, res) => {
-        res.render('default', obj);
+        res.render('index', obj);
     });
 
 export default router;

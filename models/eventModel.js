@@ -36,30 +36,16 @@ const eventModel = {
         return JSON.parse(fs.readFileSync(dbPath, "utf8")); 
     },
     getEvent: function (id) {
-        return this.getEvents().find((title) => title.id === id);
+        return this.getEvents().find((event) => event.id === id);
       },
-    saveEvents: function (title) {
-        return fs.writeFileSync(dbPath, JSON.stringify(title));
+    saveEvents: function (events) {
+        return fs.writeFileSync(dbPath, JSON.stringify(events));
       },
-      addQuote: function (title, date) {
+      addEvent: function (title, date) {
         // Model Method to write new quote into database
-        const allEvents = this.getEvents();
-    
-        // if quotes are not defined we return false
-        // to signal that something went wrong
-        if (!allEvents) {
-          console.log("not defined");
-          return false;
-        }
-    
-        // if quote or author is not defined then exit early
-        if (!title || !date) {
-          console.log("title and date is not defined");
-          return false;
-        }
-    
+        const allEvents = this.readEvents();
         const lastEvent = allEvents[allEvents.length - 1];
-        const newId = (lastEvent?.id || 0) + 1; 
+        const newId = (lastEvent?.id || 0) +1;
     
         // Create new quote object
         const newEvent = { id: newId, title, date};
@@ -68,7 +54,7 @@ const eventModel = {
         allEvents.push(newEvent);
     
         // Write new state to DB
-        this.saveQuotes(allEvents);
+        this.saveEvent(allEvents);
     
         return true;
       }
