@@ -39,9 +39,7 @@
             </div>
         </div>
 
-        <% locals.events.forEach(ele => { %>
-            <%- ele.title %> <%- ele.date %> 
-            <% }) %>
+     
     
         <div class="event-creator">
         <form action="/index" method="post">
@@ -56,17 +54,19 @@
           <br>
 
           <%= locals %>
-    
 
+          <% locals.events.forEach(element => { %>
+            <%= element.title %> 
+           
+          <% }) %>
+
+
+    
 
         </div>
 
-          
-
     </main>
 
-    <script src="server.js"></script>
-    <script src="test.js"></script>
     
 </body>
 </html>

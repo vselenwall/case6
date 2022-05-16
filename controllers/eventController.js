@@ -28,9 +28,9 @@ export default {
                 return;
             }
 
-            res.render("index", { events: eventModel.readEvents() });
+            res.render("index", { events: eventModel.getEvents() });
         },
         getAllEvents: (req, res) => {
-            res.render("index", { events: eventModel.readEvents() });
+            res.render("index", { events: eventModel.getEvents() });
         }
 }

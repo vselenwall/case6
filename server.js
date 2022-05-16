@@ -18,8 +18,8 @@ const port = 3000;
 app.set('view engine', 'ejs');
 
 // TEST //
-//app.use(express.urlencoded({ extended: true }));
-//app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 //app.get('/search', quoteController.searchQuote);
 app.post('/index', eventController.createEvent);
@@ -81,17 +81,17 @@ app.use(express.static('public'));
 
 // 404 not found
 // -------------------------
-app.get('*', (req, res, next) => {
+/* app.get('*', (req, res, next) => {
     res.render('404');
-});
+}); */
 
 // server error 500...
 // -------------------------
-app.use((err, req, res, next) => {
+/* app.use((err, req, res, next) => {
 
     // show response
     return res.status(500).send("Server error, please return later");
-});
+}); */
 
 // TESTING // 
 

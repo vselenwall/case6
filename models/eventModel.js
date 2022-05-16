@@ -1,4 +1,6 @@
-import { timingSafeEqual } from 'crypto';
+import {
+  timingSafeEqual
+} from 'crypto';
 import fs from 'fs';
 
 const dbPath = './data/db.json';
@@ -32,32 +34,36 @@ fs.writeFileSync('./data/db.json', JSON.stringify(eventsDB));*/
 export default eventModel; */
 
 const eventModel = {
-    getEvents: function() {
-        return JSON.parse(fs.readFileSync(dbPath, "utf8")); 
-    },
-    getEvent: function (id) {
-        return this.getEvents().find((event) => event.id === id);
-      },
-    saveEvents: function (events) {
-        return fs.writeFileSync(dbPath, JSON.stringify(events));
-      },
-      addEvent: function (title, date) {
-        // Model Method to write new quote into database
-        const allEvents = this.readEvents();
-        const lastEvent = allEvents[allEvents.length - 1];
-        const newId = (lastEvent?.id || 0) +1;
-    
-        // Create new quote object
-        const newEvent = { id: newId, title, date};
-    
-        // Update Javascript array with new quote
-        allEvents.push(newEvent);
-    
-        // Write new state to DB
-        this.saveEvent(allEvents);
-    
-        return true;
-      }
+  getEvents: function () {
+    return JSON.parse(fs.readFileSync(dbPath, "utf8"));
+  },
+  getEvent: function (id) {
+    return this.getEvents().find((event) => event.id === id);
+  },
+  saveEvents: function (events) {
+    return fs.writeFileSync(dbPath, JSON.stringify(events));
+  },
+  addEvent: function (title, date) {
+    // Model Method to write new quote into database
+    const allEvents = this.getEvents();
+    const lastEvent = allEvents[allEvents.length - 1];
+    const newId = (lastEvent?.id || 0) + 1;
+
+    // Create new quote object
+    const newEvent = {
+      id: newId,
+      title,
+      date
+    };
+
+    // Update Javascript array with new quote
+    allEvents.push(newEvent);
+
+    // Write new state to DB
+    this.saveEvents(allEvents);
+
+    return true;
+  }
 }
 
 export default eventModel;
