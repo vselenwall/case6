@@ -15,12 +15,13 @@ export default {
         createEvent: (req, res) => {
             const title = req.body.title;
             const date = req.body.date;
+            const description = req.body.description;
     
-            console.log(title, date);
+            console.log(title, date, description);
             // Controller Method for creating new quote
             //const isOK = eventModel.addEvent(title, date);
 
-            const check = eventModel.addEvent(title, date);
+            const check = eventModel.addEvent(title, date, description);
     
             // Check if something went wrong
             if (!check) {

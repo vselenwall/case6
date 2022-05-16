@@ -46,7 +46,9 @@
             <label for="title">Title: </label><br>
             <input type="text" id="title" name="title" required><br>
             <label for="date">Date: </label><br>
-            <input type="text" id="date" name="date" required><br><br>
+            <input type="text" id="date" name="date" required><br>
+            <label for="description">Event: </label><br>
+            <input type="text" id="description" name="description" required><br><br>
             <input type="submit" id="addEvent" value="Create event">
           </form> 
 
@@ -55,10 +57,24 @@
 
           <%= locals %>
 
+          <ul>
           <% locals.events.forEach(element => { %>
-            <%= element.title %> 
+                <li>
+                    <div class="element-date">
+                <%= element.date %>
+                    </div>
+                    <div class="element-title">
+                <%= element.title %>
+                    </div>
+                    <div class="element-description">
+                <%= element.description %>
+                    </div>
+                <button class="edit">Edit</button>
+                <button class="remove">-</button>
+                </li>
            
           <% }) %>
+           </ul>
 
 
     

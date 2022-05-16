@@ -43,7 +43,7 @@ const eventModel = {
   saveEvents: function (events) {
     return fs.writeFileSync(dbPath, JSON.stringify(events));
   },
-  addEvent: function (title, date) {
+  addEvent: function (title, date, description) {
     // Model Method to write new quote into database
     const allEvents = this.getEvents();
     const lastEvent = allEvents[allEvents.length - 1];
@@ -53,7 +53,8 @@ const eventModel = {
     const newEvent = {
       id: newId,
       title,
-      date
+      date,
+      description
     };
 
     // Update Javascript array with new quote
