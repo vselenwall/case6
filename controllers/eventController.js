@@ -37,19 +37,19 @@ export default {
         removeEvent: (req, res) => {
             const id = Number(req.params.id);
     
-            /*if (id < 0) {
-                console.log(quoteViews.errorInvalidId);
+            if (id < 0) {
+                console.log("error");
                 return;
-            }*/
+            }
     
-            const removeThisEvent = eventModel.getEvents(id);
+            const removeThisEvent = eventModel.getEvent(id);
             const isOK = eventModel.removeEvent(removeThisEvent.id);
     
             
-            if (!isOK) {
+            /* if (!isOK) {
                 console.log(eventViews.errorQuoteNotRemoved);
                 return;
-            }
+            } */
     
             console.log(removeThisEvent);
     
