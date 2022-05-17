@@ -89,7 +89,7 @@ const eventModel = {
 
     return true;
   },
-  updateEvent: function (id, newTitle, newDate, newDescription) {
+  updateEvent: function (id, newTitle, newDate) {
     // Get all quotes
     const allEvents = this.getEvents();
 
@@ -112,7 +112,7 @@ const eventModel = {
 
     allEvents[idx].title = newTitle;
     allEvents[idx].date = newDate;
-    allEvents[idx].description = newDescription;
+    //allEvents[idx].description = newDescription;
 
     console.log(allEvents);
 

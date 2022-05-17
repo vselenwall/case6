@@ -59,18 +59,18 @@ export default {
             const id = Number(req.params.id);
             const title = req.body.title;
             const date = req.body.date;
-            const description = req.body.description;
+            //const description = req.body.description;
     
             
     
-            if (!title || !date || !description) {
-                console.log("Title and date is not defined", title, date, description);
+            if (!title || !date) {
+                console.log("Title and date is not defined", title, date);
                 return;
             }
     
-            console.log(id, title, date, description);
+            console.log(id, title, date);
 
-            const isOK = eventModel.updateEvent(id, title, date, description);
+            const isOK = eventModel.updateEvent(id, title, date);
     
             if (!isOK) {
                 console.log("Event not Updated");

@@ -15,7 +15,6 @@
 </head>
 <body>
 
-
     <%- include('partials/header.ejs') %> 
 
     <main>
@@ -41,21 +40,22 @@
 
      
     
-        <div class="event-creator">
+        <div class="overlay">
+        <div id="event-creator">
         <form action="/index" method="post">
-            <label for="title">Title: </label><br>
+            <label for="title">Title</label><br>
             <input type="text" id="title" name="title" required><br>
-            <label for="date">Date: </label><br>
+            <label for="date">Date </label><br>
             <input type="text" id="date" name="date" required><br>
-            <label for="description">Event: </label><br>
-            <input type="text" id="description" name="description" required><br><br>
-            <input type="submit" id="addEvent" value="Create event">
+            <!--<label for="description">Event: </label><br>
+            <input type="text" id="description" name="description" required>-->
+            <br><input type="submit" id="addEvent" class="event-button" value="Create event">
           </form> 
+        </div>
+        </div>
 
           <div id="eventBox"></div>
           <br>
-
-          <%= locals %>
 
           <ul>
           <% locals.events.forEach(element => { %>
@@ -66,18 +66,11 @@
                     <div class="element-title">
                 <%= element.title %>
                     </div>
-                    <div class="element-description">
-                <%= element.description %>
-                    </div>
-                <button class="edit" data-id="<%= element.id %>" id="<%= element.id %>">Edit</button>
-                <button class="remove" onclick="deleteEvent(<%= element.id %>)">-</button>
+                <button class="edit" data-id="<%= element.id %>" id="<%= element.id %>"><i class="fa-solid fa-pen"></i></button>
+                <button class="remove" onclick="deleteEvent(<%= element.id %>)"><i class="fa-solid fa-circle-minus"></i></button>
                 </li>
-           
           <% }) %>
-           </ul>
-    
-
-        </div>
+            </ul>
 
     </main>
 
@@ -98,26 +91,26 @@
         console.log(id);
         const titleEl = container.querySelector(".element-title");
         const dateEl = container.querySelector(".element-date");
-        const descriptionEl = container.querySelector(".element-description");
+        //const descriptionEl = container.querySelector(".element-description");
         // if not editable make them editable
-        if (!titleEl.isContentEditable && !dateEl.isContentEditable && !descriptionEl.isContentEditable) {
+        if (!titleEl.isContentEditable && !dateEl.isContentEditable) {
           titleEl.contentEditable = true;
           dateEl.contentEditable = true;
-          descriptionEl.contentEditable = true;
+          //descriptionEl.contentEditable = true;
           // clicking the same button should save the changes
-          evt.target.innerText = "Update event";
+          evt.target.innerHTML = '<i class="fa-solid fa-check"></i>';
         } else {
           // Second time clicked it should save changes
           // reset element to be non editable
           titleEl.contentEditable = false;
           dateEl.contentEditable = false;
-          descriptionEl.contentEditable = false;
-          evt.target.innerText = "Edit";
+          //descriptionEl.contentEditable = false;
+          //evt.target.innerText = "Edit";
           // Look at values of authorEl and quoteEl and submit new quote
           const newEvent = {
             title: titleEl.innerText,
             date: dateEl.innerText,
-            description: descriptionEl.innerText,
+           //description: descriptionEl.innerText,
           };
           const response = await fetch(`/events/${id}`, {
             method: "put",
@@ -137,6 +130,17 @@
       document
         .querySelectorAll(".edit")
         .forEach((btn) => (btn.onclick = editEvent));
+
+
+        function showMenu() {
+        const menu = document.getElementById("event-creator");
+        if (menu.style.display === "none") {
+            menu.style.display = "block";
+        } else {
+            menu.style.display = "none";
+        }
+} 
+
 
     </script>
 
