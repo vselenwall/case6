@@ -43,16 +43,42 @@ export default {
             }*/
     
             const removeThisEvent = eventModel.getEvents(id);
-            //const isOK = eventModel.removeEvent(removeThisEvent.id);
+            const isOK = eventModel.removeEvent(removeThisEvent.id);
     
-            /*
+            
             if (!isOK) {
                 console.log(eventViews.errorQuoteNotRemoved);
                 return;
-            } */
+            }
     
             console.log(removeThisEvent);
     
             res.redirect('/');
         },
-}
+        updateEvent: (req, res) => {
+            const id = Number(req.params.id);
+            const title = req.body.title;
+            const date = req.body.date;
+            const description = req.body.description;
+    
+            
+    
+            if (!title || !date || !description) {
+                console.log("Title and date is not defined", title, date, description);
+                return;
+            }
+    
+            console.log(id, title, date, description);
+
+            const isOK = eventModel.updateEvent(id, title, date, description);
+    
+            if (!isOK) {
+                console.log("Event not Updated");
+                return;
+            }
+    
+            console.log("Event Updated");
+    
+            res.redirect('/');
+        },
+    }

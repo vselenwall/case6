@@ -69,6 +69,8 @@ const eventModel = {
     // Get all quotes
     const allEvents = this.getEvents();
 
+    console.log("a");
+
     // if quotes are not defined we return false
     // to signal that something went wrong
     if (!allEvents) {
@@ -78,8 +80,46 @@ const eventModel = {
     // Remove quote specified by id
     const filteredEvents = allEvents.filter((event) => event.id !== id);
 
+    console.log("b");
+
     // Write new state to db
     this.saveEvents(filteredEvents);
+
+    console.log("c");
+
+    return true;
+  },
+  updateEvent: function (id, newTitle, newDate, newDescription) {
+    // Get all quotes
+    const allEvents = this.getEvents();
+
+    // if quotes are not defined we return false
+    // to signal that something went wrong
+    if (!allEvents) {
+      return false;
+    }
+
+    // Update quote specified by id
+    const idx = allEvents.findIndex((event) => event.id === id);
+
+    console.log("a");
+
+    if (idx < 0) {
+      return false;
+    }
+
+    console.log("b");
+
+    allEvents[idx].title = newTitle;
+    allEvents[idx].date = newDate;
+    allEvents[idx].description = newDescription;
+
+    console.log(allEvents);
+
+    // Write new state to db
+    this.saveEvents(allEvents);
+
+    console.log("c");
 
     return true;
   }

@@ -69,7 +69,7 @@
                     <div class="element-description">
                 <%= element.description %>
                     </div>
-                <button class="edit" data-id="<%= element.id %>">Edit</button>
+                <button class="edit" data-id="<%= element.id %>" id="<%= element.id %>">Edit</button>
                 <button class="remove" onclick="deleteEvent(<%= element.id %>)">-</button>
                 </li>
            
@@ -89,6 +89,55 @@
           window.location.href = response.url; // '/'
         }
       }
+
+      async function editEvent(evt) {
+        //const id = Number(evt.target.dataset.id);
+
+        const container = evt.target.parentElement;
+        const id = container.querySelector(".edit").getAttribute("data-id");
+        console.log(id);
+        const titleEl = container.querySelector(".element-title");
+        const dateEl = container.querySelector(".element-date");
+        const descriptionEl = container.querySelector(".element-description");
+        // if not editable make them editable
+        if (!titleEl.isContentEditable && !dateEl.isContentEditable && !descriptionEl.isContentEditable) {
+          titleEl.contentEditable = true;
+          dateEl.contentEditable = true;
+          descriptionEl.contentEditable = true;
+          // clicking the same button should save the changes
+          evt.target.innerText = "Update event";
+        } else {
+          // Second time clicked it should save changes
+          // reset element to be non editable
+          titleEl.contentEditable = false;
+          dateEl.contentEditable = false;
+          descriptionEl.contentEditable = false;
+          evt.target.innerText = "Edit";
+          // Look at values of authorEl and quoteEl and submit new quote
+          const newEvent = {
+            title: titleEl.innerText,
+            date: dateEl.innerText,
+            description: descriptionEl.innerText,
+          };
+          const response = await fetch(`/events/${id}`, {
+            method: "put",
+            body: JSON.stringify(newEvent),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          
+          // Check if there is a redirect to follow the new url
+          if (response.redirected) {
+            window.location.href = response.url;
+          }
+        }
+      }
+    
+      document
+        .querySelectorAll(".edit")
+        .forEach((btn) => (btn.onclick = editEvent));
+
     </script>
 
     
