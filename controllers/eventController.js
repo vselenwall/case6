@@ -33,5 +33,26 @@ export default {
         },
         getAllEvents: (req, res) => {
             res.render("index", { events: eventModel.getEvents() });
-        }
+        },
+        removeEvent: (req, res) => {
+            const id = Number(req.params.id);
+    
+            /*if (id < 0) {
+                console.log(quoteViews.errorInvalidId);
+                return;
+            }*/
+    
+            const removeThisEvent = eventModel.getEvents(id);
+            //const isOK = eventModel.removeEvent(removeThisEvent.id);
+    
+            /*
+            if (!isOK) {
+                console.log(eventViews.errorQuoteNotRemoved);
+                return;
+            } */
+    
+            console.log(removeThisEvent);
+    
+            res.redirect('/');
+        },
 }

@@ -64,6 +64,24 @@ const eventModel = {
     this.saveEvents(allEvents);
 
     return true;
+  },
+  removeEvent: function (id) {
+    // Get all quotes
+    const allEvents = this.getEvents();
+
+    // if quotes are not defined we return false
+    // to signal that something went wrong
+    if (!allEvents) {
+      return false;
+    }
+
+    // Remove quote specified by id
+    const filteredEvents = allEvents.filter((event) => event.id !== id);
+
+    // Write new state to db
+    this.saveEvents(filteredEvents);
+
+    return true;
   }
 }
 

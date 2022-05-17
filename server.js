@@ -27,6 +27,8 @@ app.post('/index', eventController.createEvent);
 
 app.get('/', eventController.getAllEvents);
 
+app.delete('/events/:id', eventController.removeEvent);
+
 // ##### HANDLE ROUTES #####
 // LISTEN TO /START
 app.get('/start', (req, res) => {

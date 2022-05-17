@@ -69,19 +69,27 @@
                     <div class="element-description">
                 <%= element.description %>
                     </div>
-                <button class="edit">Edit</button>
-                <button class="remove">-</button>
+                <button class="edit" data-id="<%= element.id %>">Edit</button>
+                <button class="remove" onclick="deleteEvent(<%= element.id %>)">-</button>
                 </li>
            
           <% }) %>
            </ul>
-
-
     
 
         </div>
 
     </main>
+
+    <script>
+        async function deleteEvent(id) {
+        console.log("Delete this event", id);
+        const response = await fetch(`/events/${id}`, { method: "delete" });
+        if (response.redirected) {
+          window.location.href = response.url; // '/'
+        }
+      }
+    </script>
 
     
 </body>
