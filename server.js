@@ -25,9 +25,12 @@ app.use(express.json());
 app.post('/index', eventController.createEvent);
 //app.put('/default/:title', eventController.updateQuote);
 
+
 app.get('/', eventController.getAllEvents);
 
 app.delete('/events/:id', eventController.removeEvent);
+app.put('/events/:id', eventController.updateEvent);
+
 
 // ##### HANDLE ROUTES #####
 // LISTEN TO /START
