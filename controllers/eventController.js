@@ -45,7 +45,6 @@ export default {
             const removeThisEvent = eventModel.getEvent(id);
             const isOK = eventModel.removeEvent(removeThisEvent.id);
     
-            
             /* if (!isOK) {
                 console.log(eventViews.errorQuoteNotRemoved);
                 return;

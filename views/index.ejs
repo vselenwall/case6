@@ -23,18 +23,32 @@
 
             <div class="week-header">
             <div><i class="fa-solid fa-angle-left"></i></div>
-            <h3>Week 34</h3>
+            <h3>Week 18</h3>
             <div><i class="fa-solid fa-angle-right"></i></div>
             </div>
 
             <div class="weekdays">
-                <div class="mon">M</div>
-                <div class="tue">T</div>
-                <div class="wed">W</div>
-                <div class="thurs">T</div>
-                <div class="fri">F</div>
-                <div class="sat">S</div>
-                <div class="sun">S</div>
+                <div class="mon" onclick="testFunction()">M
+                    <div class="day">2</div>
+                </div>
+                <div class="tue">T
+                    <div class="day">3</div>
+                </div>
+                <div class="wed">W
+                    <div class="day">4</div>
+                </div>
+                <div class="thurs">T
+                    <div class="day">5</div>
+                </div>
+                <div class="fri">F
+                    <div class="day">6</div>
+                </div>
+                <div class="sat">S
+                    <div class="day">7</div>
+                </div>
+                <div class="sun">S
+                    <div class="day">8</div>
+                </div>
             </div>
         </div>
 
@@ -64,12 +78,16 @@
                 <%= element.date %>
                     </div>
                     <div class="element-title">
+                        <p>
                 <%= element.title %>
+                        </p>
                     </div>
                 <button class="edit" data-id="<%= element.id %>" id="<%= element.id %>"><i class="fa-solid fa-pen"></i></button>
                 <button class="remove" onclick="deleteEvent(<%= element.id %>)"><i class="fa-solid fa-circle-minus"></i></button>
                 </li>
           <% }) %>
+
+
             </ul>
 
     </main>
@@ -83,35 +101,28 @@
         }
       }
 
-      async function editEvent(evt) {
-        //const id = Number(evt.target.dataset.id);
+      async function editEvent(event) {
 
-        const container = evt.target.parentElement;
+        const container = event.target.parentElement;
         const id = container.querySelector(".edit").getAttribute("data-id");
-        console.log(id);
-        const titleEl = container.querySelector(".element-title");
-        const dateEl = container.querySelector(".element-date");
-        //const descriptionEl = container.querySelector(".element-description");
-        // if not editable make them editable
-        if (!titleEl.isContentEditable && !dateEl.isContentEditable) {
-          titleEl.contentEditable = true;
-          dateEl.contentEditable = true;
-          //descriptionEl.contentEditable = true;
-          // clicking the same button should save the changes
-          evt.target.innerHTML = '<i class="fa-solid fa-check"></i>';
+        const title = container.querySelector(".element-title");
+        const date = container.querySelector(".element-date");
+
+        // Make content editable
+        if (!title.isContentEditable && !date.isContentEditable) {
+          title.contentEditable = true;
+          date.contentEditable = true;
+         
+        // Save changes with checkmark button
+          event.target.innerHTML = '<i class="fa-solid fa-check"></i>';
         } else {
-          // Second time clicked it should save changes
-          // reset element to be non editable
-          titleEl.contentEditable = false;
-          dateEl.contentEditable = false;
-          //descriptionEl.contentEditable = false;
-          //evt.target.innerText = "Edit";
-          // Look at values of authorEl and quoteEl and submit new quote
+
+          // Save new quote innertext
           const newEvent = {
-            title: titleEl.innerText,
-            date: dateEl.innerText,
-           //description: descriptionEl.innerText,
+            title: title.innerText,
+            date: date.innerText
           };
+
           const response = await fetch(`/events/${id}`, {
             method: "put",
             body: JSON.stringify(newEvent),
@@ -123,7 +134,7 @@
           // Check if there is a redirect to follow the new url
           if (response.redirected) {
             window.location.href = response.url;
-          }
+          } 
         }
       }
     
@@ -140,6 +151,10 @@
             menu.style.display = "none";
         }
 } 
+
+        function testFunction() {
+            console.log("Funkar");
+        }
 
 
     </script>
