@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="sv">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,24 +8,25 @@
     <title>Calendar App</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+        integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="/styles/style.css">
-    
+
 </head>
+
 <body>
 
-    <%- include('partials/header.ejs') %> 
+    <%- include('partials/header.ejs') %>
 
     <main>
 
         <div class="week-section">
 
             <div class="week-header">
-            <div><i class="fa-solid fa-angle-left"></i></div>
-            <h3>Week 18</h3>
-            <div><i class="fa-solid fa-angle-right"></i></div>
+                <div id="previous"><i class="fa-solid fa-angle-left"></i></div>
+                <h3>Week 18</h3>
+                <div id="next"><i class="fa-solid fa-angle-right"></i></div>
             </div>
 
             <div class="weekdays">
@@ -52,113 +54,203 @@
             </div>
         </div>
 
-     
-    
+
+
         <div class="overlay">
-        <div id="event-creator">
-        <form action="/index" method="post">
-            <label for="title">Title</label><br>
-            <input type="text" id="title" name="title" required><br>
-            <label for="date">Date </label><br>
-            <input type="text" id="date" name="date" required><br>
-            <!--<label for="description">Event: </label><br>
-            <input type="text" id="description" name="description" required>-->
-            <br><input type="submit" id="addEvent" class="event-button" value="Create event">
-          </form> 
+            <div id="event-creator">
+                <form action="/index" method="post">
+                    <label for="title">Title</label><br>
+                    <input type="text" id="title" name="title" required><br>
+                    <label for="date">Date</label>
+                    <select id="date" name="date">
+                        <option value="2 may">2 may</option>
+                        <option value="3 may">3 may</option>
+                        <option value="4 may">4 may</option>
+                        <option value="5 may">5 may</option>
+                        <option value="6 may">6 may</option>
+                        <option value="7 may">7 may</option>
+                        <option value="8 may">8 may</option>
+                    </select>
+                    <br><br><input type="submit" id="addEvent" class="event-button" value="Create event">
+                </form>
+            </div>
         </div>
-        </div>
 
-          <div id="eventBox"></div>
-          <br>
+        <div id="eventBox"></div>
+        <br>
 
-          <ul>
-          <% locals.events.forEach(element => { %>
-                <li>
-                    <div class="element-date">
-                <%= element.date %>
-                    </div>
-                    <div class="element-title">
-                        <p>
-                <%= element.title %>
-                        </p>
-                    </div>
-                <button class="edit" data-id="<%= element.id %>" id="<%= element.id %>"><i class="fa-solid fa-pen"></i></button>
-                <button class="remove" onclick="deleteEvent(<%= element.id %>)"><i class="fa-solid fa-circle-minus"></i></button>
-                </li>
-          <% }) %>
+        <ul>
+            <% locals.events.forEach(element => { %>
+            <li>
+                <div class="element-date">
+                    <%= element.date %>
+                </div>
+                <div class="element-title">
+                    <p>
+                        <%= element.title %>
+                    </p>
+                </div>
+                <button class="edit" data-id="<%= element.id %>" id="<%= element.id %>"><i
+                        class="fa-solid fa-pen"></i></button>
+                <button class="remove" onclick="deleteEvent(<%= element.id %>)"><i
+                        class="fa-solid fa-circle-minus"></i></button>
+            </li>
+            <% }) %>
+        </ul>
 
-
-            </ul>
+        <ul id="calendar"> </ul>
 
     </main>
 
     <script>
         async function deleteEvent(id) {
-        console.log("Delete this event", id);
-        const response = await fetch(`/events/${id}`, { method: "delete" });
-        if (response.redirected) {
-          window.location.href = response.url; // '/'
+            console.log("Delete this event", id);
+            const response = await fetch(`/events/${id}`, {
+                method: "delete"
+            });
+            if (response.redirected) {
+                window.location.href = response.url; // '/'
+            }
         }
-      }
 
-      async function editEvent(event) {
+        async function editEvent(event) {
 
-        const container = event.target.parentElement;
-        const id = container.querySelector(".edit").getAttribute("data-id");
-        const title = container.querySelector(".element-title");
-        const date = container.querySelector(".element-date");
+            const container = event.target.parentElement;
+            const id = container.querySelector(".edit").getAttribute("data-id");
+            const title = container.querySelector(".element-title");
+            const date = container.querySelector(".element-date");
 
-        // Make content editable
-        if (!title.isContentEditable && !date.isContentEditable) {
-          title.contentEditable = true;
-          date.contentEditable = true;
-         
-        // Save changes with checkmark button
-          event.target.innerHTML = '<i class="fa-solid fa-check"></i>';
-        } else {
+            // Make content editable
+            if (!title.isContentEditable && !date.isContentEditable) {
+                title.contentEditable = true;
+                date.contentEditable = true;
 
-          // Save new quote innertext
-          const newEvent = {
-            title: title.innerText,
-            date: date.innerText
-          };
+                // Save changes with checkmark button
+                event.target.innerHTML = '<i class="fa-solid fa-check"></i>';
+            } else {
 
-          const response = await fetch(`/events/${id}`, {
-            method: "put",
-            body: JSON.stringify(newEvent),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
-          
-          // Check if there is a redirect to follow the new url
-          if (response.redirected) {
-            window.location.href = response.url;
-          } 
+                // Save new quote w innertext
+                const newEvent = {
+                    title: title.innerText,
+                    date: date.innerText
+                };
+
+                const response = await fetch(`/events/${id}`, {
+                    method: "put",
+                    body: JSON.stringify(newEvent),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+
+                // Redirect
+                if (response.redirected) {
+                    window.location.href = response.url;
+                }
+            }
         }
-      }
-    
-      document
-        .querySelectorAll(".edit")
-        .forEach((btn) => (btn.onclick = editEvent));
+
+        document
+            .querySelectorAll(".edit")
+            .forEach((btn) => (btn.onclick = editEvent));
 
 
         function showMenu() {
-        const menu = document.getElementById("event-creator");
-        if (menu.style.display === "none") {
-            menu.style.display = "block";
-        } else {
-            menu.style.display = "none";
+            const menu = document.getElementById("event-creator");
+            if (menu.style.display === "none") {
+                menu.style.display = "block";
+            } else {
+                menu.style.display = "none";
+            }
         }
-} 
 
         function testFunction() {
             console.log("Funkar");
         }
 
 
-    </script>
+        // ett datum kan initieras med ngn form av ursprung, ex strängen "2022-04-30" 
+        let date = new Date(); 
+        console.log("date", date); 
 
-    
+        // att lägga till en dag görs med funktionen setDate 
+        date.setDate(date.getDate() - 7); 
+        console.log("date", date); 
+        let yyyymmdd = date.toLocaleDateString(); 
+        console.log("yyyymmdd", yyyymmdd); 
+
+        // i JavaScript startar varje vecka med sö - sunday 
+        // med metoden getDay() får man en siffra som anger dag i veckan 
+        let dayOfWeek = date.getDay(); 
+        console.log("dayOfWeek", dayOfWeek); 
+
+         /* 0 1 2 3 4 5 6 su mo tu we th fr sa må ti on to fr lö sö */ 
+         function getWeekDates(date) { 
+            let d = new Date(date); 
+            let dayOfWeek = d.getDay(); 
+            let preDays = -dayOfWeek; 
+            let postDays = 7 + preDays; 
+            let dates = []; d.setDate(d.getDate() + preDays); 
+            
+            for (let i = preDays; i < postDays; i++) { 
+                d.setDate(d.getDate() + 1); 
+                let yyyymmdd = d.toLocaleDateString(); 
+                let obj = {date: yyyymmdd, dd: "något..."} 
+                dates.push(obj); } 
+                
+                return dates; 
+            
+            } 
+
+            let calendarDates = getWeekDates(date); 
+            console.log("calendarDates", calendarDates); 
+            
+            // en referens till omslutande ul element
+            const calendarElement = document.getElementById("calendar")
+            
+            function showWeekDates(dates) { 
+                // radera alla li element 
+                calendarElement.innerText = ""; 
+                dates.forEach(element => { 
+                // skapa ett list element 
+                let li = document.createElement("li"); 
+                // ange innehåll 
+                li.innerText = element.date; 
+                // lägg till det omslutande ul elementet 
+                calendarElement.appendChild(li); }); 
+            } 
+
+                        // skapa en kalender dynamiskt 
+            // en iteration över veckans datum 
+            showWeekDates(calendarDates); 
+            
+            // navigera mellan veckor 
+            const previous = document.getElementById("previous"); 
+            const next = document.getElementById("next"); 
+            // händelser - klick 
+            previous.addEventListener("click", () => { 
+                console.log("Gå bakåt"); 
+            // kontrollera vilken dag som nu är veckans första dag 
+            let currentFirstDayOfWeekElement = document.querySelector("li"); 
+            console.log("currentFirstDayOfWeekElement", currentFirstDayOfWeekElement); 
+            let currentMonday = currentFirstDayOfWeekElement.innerText; 
+            console.log("currentMonday", currentMonday); 
+
+            // en vecka tidigare... 
+            // skapa först ett äkta datumobjekt av currentMonday 
+            let day = new Date(currentMonday); 
+            // en vecka tidigare 
+            day.setDate(day.getDate() - 7); 
+            console.log("day...", day); 
+            // ändra innehållet i ul elementet 
+            // hämta först veckans datum 
+            calendarDates = getWeekDates(day); 
+            console.log("calendarDates", calendarDates); 
+            showWeekDates(calendarDates); }); 
+
+        </script>
+
+
 </body>
+
 </html>

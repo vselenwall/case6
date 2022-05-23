@@ -34,8 +34,21 @@ fs.writeFileSync('./data/db.json', JSON.stringify(eventsDB));*/
 export default eventModel; */
 
 const eventModel = {
-  getEvents: function () {
+  getEvents: function (startDate, endDate) {
     return JSON.parse(fs.readFileSync(dbPath, "utf8"));
+
+    if(!startDate || !endDate) {
+      return allEvents;
+    } else {
+      const eventsInInterval = allEvents.filter(events => {
+        const eventDateUnix = new Date(events.date).getTime();
+        const startDateUnix = new Date(startDate).getTime();
+        const endDateUnix = new Date(endDate).getTime();
+
+        return startDateUnix <= eventDateUnix && eventDateUnix <= endDateUnix;
+      })
+      return eventsInInterval;
+    }
   },
   getEvent: function (id) {
     return this.getEvents().find((event) => event.id === id);
@@ -43,7 +56,7 @@ const eventModel = {
   saveEvents: function (events) {
     return fs.writeFileSync(dbPath, JSON.stringify(events));
   },
-  addEvent: function (title, date, description) {
+  addEvent: function (title, date) {
     // Model Method to write new quote into database
     const allEvents = this.getEvents();
     const lastEvent = allEvents[allEvents.length - 1];
@@ -53,8 +66,7 @@ const eventModel = {
     const newEvent = {
       id: newId,
       title,
-      date,
-      description
+      date
     };
 
     // Update Javascript array with new quote
@@ -89,40 +101,25 @@ const eventModel = {
 
     return true;
   },
-  updateEvent: function (id, newTitle, newDate) {
-    // Get all quotes
+   updateEvent: function (id, newTitle, newDate) {
+
     const allEvents = this.getEvents();
 
-    // if quotes are not defined we return false
-    // to signal that something went wrong
-    if (!allEvents) {
+    const idi = allEvents.findIndex((event) => event.id === id);
+
+    if (idi < 0) {
       return false;
     }
 
-    // Update quote specified by id
-    const idx = allEvents.findIndex((event) => event.id === id);
+    allEvents[idi].title = newTitle;
+    allEvents[idi].date = newDate;
 
-    console.log("a");
-
-    if (idx < 0) {
-      return false;
-    }
-
-    console.log("b");
-
-    allEvents[idx].title = newTitle;
-    allEvents[idx].date = newDate;
-    //allEvents[idx].description = newDescription;
-
-    console.log(allEvents);
-
-    // Write new state to db
     this.saveEvents(allEvents);
 
-    console.log("c");
-
     return true;
-  }
+  } 
 }
 
 export default eventModel;
+
+

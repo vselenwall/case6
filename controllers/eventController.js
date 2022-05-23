@@ -15,13 +15,12 @@ export default {
         createEvent: (req, res) => {
             const title = req.body.title;
             const date = req.body.date;
-            const description = req.body.description;
     
-            console.log(title, date, description);
+            console.log(title, date);
             // Controller Method for creating new quote
             //const isOK = eventModel.addEvent(title, date);
 
-            const check = eventModel.addEvent(title, date, description);
+            const check = eventModel.addEvent(title, date);
     
             // Check if something went wrong
             if (!check) {
@@ -33,6 +32,8 @@ export default {
         },
         getAllEvents: (req, res) => {
             res.render("index", { events: eventModel.getEvents() });
+
+
         },
         removeEvent: (req, res) => {
             const id = Number(req.params.id);
@@ -45,11 +46,6 @@ export default {
             const removeThisEvent = eventModel.getEvent(id);
             const isOK = eventModel.removeEvent(removeThisEvent.id);
     
-            /* if (!isOK) {
-                console.log(eventViews.errorQuoteNotRemoved);
-                return;
-            } */
-    
             console.log(removeThisEvent);
     
             res.redirect('/');
@@ -58,26 +54,10 @@ export default {
             const id = Number(req.params.id);
             const title = req.body.title;
             const date = req.body.date;
-            //const description = req.body.description;
-    
-            
-    
-            if (!title || !date) {
-                console.log("Title and date is not defined", title, date);
-                return;
-            }
-    
-            console.log(id, title, date);
 
             const isOK = eventModel.updateEvent(id, title, date);
     
-            if (!isOK) {
-                console.log("Event not Updated");
-                return;
-            }
-    
-            console.log("Event Updated");
-    
             res.redirect('/');
-        },
+        }
     }
+

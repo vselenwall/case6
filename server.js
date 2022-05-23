@@ -29,6 +29,7 @@ app.post('/index', eventController.createEvent);
 app.get('/', eventController.getAllEvents);
 
 app.delete('/events/:id', eventController.removeEvent);
+
 app.put('/events/:id', eventController.updateEvent);
 
 
