@@ -37,7 +37,7 @@ const eventModel = {
   getEvents: function (startDate, endDate) {
     return JSON.parse(fs.readFileSync(dbPath, "utf8"));
 
-    if(!startDate || !endDate) {
+   /* if(!startDate || !endDate) {
       return allEvents;
     } else {
       const eventsInInterval = allEvents.filter(events => {
@@ -48,7 +48,7 @@ const eventModel = {
         return startDateUnix <= eventDateUnix && eventDateUnix <= endDateUnix;
       })
       return eventsInInterval;
-    }
+    } */
   },
   getEvent: function (id) {
     return this.getEvents().find((event) => event.id === id);

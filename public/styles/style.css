@@ -191,9 +191,14 @@ main {
   margin: 0.5rem;
 }
 
-.week-section .weekdays .day {
+.week-section #calendar {
   font-size: 10px;
-  margin-top: 1rem;
+  padding: 0.5rem;
+  list-style: none;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 
 #event-creator {
@@ -253,6 +258,18 @@ main {
   margin: 0.2rem;
   width: 200px;
   color: #647C7B;
+}
+
+#overlay-bg {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #647C7B;
+  opacity: 50%;
+  display: none;
+  z-index: 2;
 }
 
 ul {

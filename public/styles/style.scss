@@ -192,11 +192,16 @@ main {
         font-family: $primary-font;
         justify-content: center;
         margin: 0.5rem;
+    }
 
-        .day {
-            font-size: 10px;
-            margin-top: 1rem;
-        }
+
+    #calendar {
+        font-size: 10px;
+        padding: 0.5rem;
+        list-style: none;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+
     }
 }
 
@@ -249,6 +254,18 @@ main {
         width: 200px;
         color: $primary-color;
     }
+}
+
+#overlay-bg {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: $primary-color;
+        opacity: 50%;
+        display: none;
+        z-index: 2;
 }
 
 
