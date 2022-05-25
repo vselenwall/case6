@@ -191,12 +191,19 @@ main {
         font-weight: 300;
         font-family: $primary-font;
         justify-content: center;
-        margin: 0.5rem;
+        margin-top: 0.5rem;
+
+        /*.mon:active {
+        background-color: $primary-color;
+        color: white;
+        border-radius: 50%;
+        padding: 0.5rem;
+        }*/
     }
 
 
-    #calendar {
-        font-size: 10px;
+    #calendar-dates {
+        font-size: 12px;
         padding: 0.5rem;
         list-style: none;
         display: grid;

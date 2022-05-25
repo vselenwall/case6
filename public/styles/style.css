@@ -188,11 +188,17 @@ main {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  margin: 0.5rem;
+  margin-top: 0.5rem;
+  /*.mon:active {
+        background-color: $primary-color;
+        color: white;
+        border-radius: 50%;
+        padding: 0.5rem;
+        }*/
 }
 
-.week-section #calendar {
-  font-size: 10px;
+.week-section #calendar-dates {
+  font-size: 12px;
   padding: 0.5rem;
   list-style: none;
   display: -ms-grid;
