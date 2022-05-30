@@ -293,7 +293,7 @@ ul li {
           box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
 }
 
-ul li .element-date {
+ul li #element-date {
   background-color: #647C7B;
   padding: 1.7rem;
   color: #E5E5E5;

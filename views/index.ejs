@@ -25,7 +25,7 @@
 
             <div class="week-header">
                 <div id="previous"><i class="fa-solid fa-angle-left"></i></div>
-                <h3>Week 18</h3>
+                <h3>Week</h3>
                 <div id="next"><i class="fa-solid fa-angle-right"></i></div>
             </div>
 
@@ -80,7 +80,7 @@
         <ul>
             <% locals.events.forEach(element => { %>
             <li>
-                <div class="element-date">
+                <div id="element-date">
                     <%= element.date %>
                 </div>
                 <div class="element-title">
@@ -125,7 +125,7 @@
             const container = event.target.parentElement;
             const id = container.querySelector(".edit").getAttribute("data-id");
             const title = container.querySelector(".element-title");
-            const date = container.querySelector(".element-date");
+            const date = container.querySelector("#element-date");
 
             // Make content editable
             if (!title.isContentEditable && !date.isContentEditable) {
@@ -208,7 +208,7 @@
                 return response.json();
             })
             .then(function (events) {
-                console.log("data", events);
+                //console.log("data", events);
                 savedEvents = events;
                 // PLACERA IN EGEN
                 //showWeekDates(calendarDates);
@@ -246,16 +246,69 @@
         console.log("calendar", calendar);
 
         const calendarDates = document.getElementById("calendar-dates")
-        const elementDate = document.getElementsByClassName("element-date")
+
+
 
         calendarDates.addEventListener("click", (event) => {
-           // console.log(event.target.getAttribute("data-date"));
+            //console.log(event.target.getAttribute("data-date"));
 
-           let dataDate = event.target.getAttribute("data-date");
-           console.log("datum:", dataDate);
+            // Div w dates in eventlist 
+            let elementDate = document.getElementById("element-date")
 
-           
-        })
+            // Div w dates in calendar
+            let dataDate = event.target.getAttribute("data-date")
+
+            console.log("element-date: ", elementDate.innerText);
+
+            console.log("dataDate: ", dataDate);
+
+            savedEvents.events.forEach(events => {
+
+                let result = savedEvents.events.filter((e) => {
+                    return e.date === dataDate;
+                });
+
+                console.log(result);
+
+            });
+
+            // if elementDate = dataDate filter from eventlist
+            /*if (elementDate.innerText == dataDate) {
+
+
+                let elementDateTwo = elementDate.innerText;
+
+                /*let result = savedEvents.events.filter(function (events) {
+                    return events.id;
+                });
+
+                console.log("Events: ", savedEvents);
+
+                const result = savedEvents.events.filter(
+                (events) => events.date.includes(dataDate[1]));
+
+                //showDates(result);
+
+                // ANDERS
+                  console.log(savedEvents.events);
+                let result = savedEvents.events.filter((e) => {
+                    return e.date === element;
+                });
+
+                console.log("Rätt: ", result);
+
+                //console.log(elementDateTwo);
+
+                //return elementDateTwo;
+
+                //console.log("Rätt: ", result);
+
+
+            } else {
+                console.log("Funkar ej");
+            }
+
+        }) */ });
 
         //let dataDate = getAttribute("data-date")
         //console.log("skriv ut datum", dataDate);
@@ -270,9 +323,10 @@
                 div.classList.add("date-element");
                 div.setAttribute("data-date", element.date);
 
+
                 // EVENTINFO
-                const eventInfo = document.createElement("info-div");
-                eventInfo.classList.add("event-info");
+                /* const eventInfo = document.createElement("info-div");
+                eventInfo.classList.add("event-info"); */
 
                 // .date
                 div.innerText = element.date;
@@ -280,31 +334,28 @@
 
                 // SKAPA
 
-                const buttonsDiv = document.createElement("div");
+                /* const buttonsDiv = document.createElement("div");
 
                 const editBtn = document.createElement("edit-btn");
 
-                editBtn.innerHTML = "Edit";
+                editBtn.innerHTML = "Edit"; */
 
                 // FINNS INTE
-                buttonsDiv.appendChild(editBtn);
+               // buttonsDiv.appendChild(editBtn);
 
                 //div = document.createElement("div");
 
                 //match saved events
-                console.log(savedEvents.events);
-                let result = savedEvents.events.filter((e) => {
-                    return e.date === element;
-                });
-                console.log(result);
+              
+                //console.log(result);
 
-                if (result.length > 0) {
+                /*if (result.length > 0) {
                     eventInfo.innerText = result[0].title;
                     eventInfo.appendChild(buttonsDiv);
                 }
 
                 div.appendChild(eventInfo);
-                calendarDates.appendChild(div);
+                calendarDates.appendChild(div); */
 
 
             });
