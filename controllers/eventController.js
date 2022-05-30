@@ -33,8 +33,12 @@ export default {
         getAllEvents: (req, res) => {
             res.render("index", { events: eventModel.getEvents() });
 
-
         },
+
+        getAllEventsApi: (req, res) => {
+            res.json({events: eventModel.getEvents() });
+        },
+
         removeEvent: (req, res) => {
             const id = Number(req.params.id);
     

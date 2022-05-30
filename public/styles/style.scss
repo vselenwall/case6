@@ -64,7 +64,7 @@ header {
 
 main {
     background-color: $background-color;
-    height: 650px;
+    //height: 10rem;
     position: relative;
     margin-top: 0;
 }
@@ -333,5 +333,18 @@ ul li {
     }
 }
 
+// FOOTER
 
+footer {
+    background-color: $primary-color;
+    color: $second-background-color;
+    font-family: $primary-font;
+    font-size: 12px;
+    text-transform: uppercase;
+    padding: 2.5rem;
+    text-align: center;
+    margin-top: 29rem;
+    width: 100%;
+    letter-spacing: 0.2rem;
+}
 

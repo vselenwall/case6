@@ -56,7 +56,6 @@ header .month {
 
 main {
   background-color: #D9DAD8;
-  height: 650px;
   position: relative;
   margin-top: 0;
 }
@@ -338,5 +337,18 @@ ul li .remove {
   color: #647C7B;
   border-radius: 0 0.2rem 0.2rem 0;
   background-color: #E5E5E5;
+}
+
+footer {
+  background-color: #647C7B;
+  color: #E5E5E5;
+  font-family: "Quicksand", sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  padding: 2.5rem;
+  text-align: center;
+  margin-top: 29rem;
+  width: 100%;
+  letter-spacing: 0.2rem;
 }
 /*# sourceMappingURL=style.css.map */

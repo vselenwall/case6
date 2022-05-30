@@ -32,6 +32,7 @@ app.delete('/events/:id', eventController.removeEvent);
 
 app.put('/events/:id', eventController.updateEvent);
 
+app.get('/index/api', eventController.getAllEventsApi);
 
 // ##### HANDLE ROUTES #####
 // LISTEN TO /START

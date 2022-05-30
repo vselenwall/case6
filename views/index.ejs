@@ -30,7 +30,7 @@
             </div>
 
             <div class="weekdays">
-                <div class="mon" onclick="testingFunc()">M
+                <div class="mon">M
                 </div>
                 <div class="tue">T
                 </div>
@@ -98,14 +98,15 @@
 
         <!--<ul id="calendar"> </ul>-->
 
-       <!-- <div id="testing"></div>-->
+        <!-- <div id="testing"></div>-->
+
+        <%- include('partials/footer.ejs') %>
 
     </main>
 
     <div id="overlay-bg"></div>
 
     <script>
-
         // DELETE EVENT 
 
         async function deleteEvent(id) {
@@ -131,11 +132,11 @@
                 title.contentEditable = true;
                 date.contentEditable = true;
 
-            // Save changes with checkmark button
+                // Save changes with checkmark button
                 event.target.innerHTML = '<i class="fa-solid fa-check"></i>';
             } else {
 
-            // Save new quote w innertext
+                // Save new quote w innertext
                 const newEvent = {
                     title: title.innerText,
                     date: date.innerText
@@ -194,6 +195,26 @@
         let weekday = date.getDay();
         console.log("it's this day: ", weekday);
 
+        // Johannna
+        let savedEvents = [];
+        // placera härunder - veckans datum
+        //let calendarDates = getWeekDates(date);
+        let calendarDay = createDates(date);
+
+        fetch("index/api", {
+                method: "GET"
+            })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (events) {
+                console.log("data", events);
+                savedEvents = events;
+                // PLACERA IN EGEN
+                //showWeekDates(calendarDates);
+                showDates(calendarDay);
+            })
+
 
         function createDates(date) {
             let day = new Date(date);
@@ -211,100 +232,138 @@
                 let obj = {
                     date: yearMonthDay,
                     dd: day.getUTCDate()
-                } 
-                
+                }
+
                 dates.push(obj);
             }
 
             return dates;
         }
 
-
         // SHOW DATES  
 
-        let calendar = createDates(date); 
-            console.log("calendar", calendar); 
-            
-            const calendarDates = document.getElementById("calendar-dates") 
-            
-            function showDates(dates) { 
+        let calendar = createDates(date);
+        console.log("calendar", calendar);
 
-                calendarDates.innerText = ""; 
+        const calendarDates = document.getElementById("calendar-dates")
+        const elementDate = document.getElementsByClassName("element-date")
 
-                dates.forEach(element => { 
-        
-                let div = document.createElement("div"); 
+        calendarDates.addEventListener("click", (event) => {
+           // console.log(event.target.getAttribute("data-date"));
+
+           let dataDate = event.target.getAttribute("data-date");
+           console.log("datum:", dataDate);
+
+           
+        })
+
+        //let dataDate = getAttribute("data-date")
+        //console.log("skriv ut datum", dataDate);
+
+        function showDates(dates) {
+
+            calendarDates.innerText = "";
+
+            dates.forEach(element => {
+
+                let div = document.createElement("div");
                 div.classList.add("date-element");
-              
-                // .date
-                div.innerText = element.date; 
-                calendarDates.appendChild(div); 
+                div.setAttribute("data-date", element.date);
 
+                // EVENTINFO
+                const eventInfo = document.createElement("info-div");
+                eventInfo.classList.add("event-info");
+
+                // .date
+                div.innerText = element.date;
+                calendarDates.appendChild(div);
+
+                // SKAPA
+
+                const buttonsDiv = document.createElement("div");
+
+                const editBtn = document.createElement("edit-btn");
+
+                editBtn.innerHTML = "Edit";
+
+                // FINNS INTE
+                buttonsDiv.appendChild(editBtn);
 
                 //div = document.createElement("div");
 
                 //match saved events
-
-
-                }); 
-            } 
-
-            /*let locals = './data/db.json';
-
-            let result = locals.events.filter((element) => {
-                    return element.date === element;
+                console.log(savedEvents.events);
+                let result = savedEvents.events.filter((e) => {
+                    return e.date === element;
                 });
-                console.log(result); */
+                console.log(result);
+
+                if (result.length > 0) {
+                    eventInfo.innerText = result[0].title;
+                    eventInfo.appendChild(buttonsDiv);
+                }
+
+                div.appendChild(eventInfo);
+                calendarDates.appendChild(div);
 
 
-            showDates(calendar); 
-            
-            // NAVIGATION
+            });
+        }
 
-            const previous = document.getElementById("previous"); 
-            const next = document.getElementById("next"); 
-         
-            previous.addEventListener("click", () => { 
-                console.log("Gå bakåt"); 
-            
+        /*let locals = './data/db.json';
+
+        let result = locals.events.filter((element) => {
+                return element.date === element;
+            });
+            console.log(result); */
+
+        // NAVIGATION
+
+        const previous = document.getElementById("previous");
+        const next = document.getElementById("next");
+
+        previous.addEventListener("click", () => {
+            console.log("Gå bakåt");
+
             let firstWeekday = document.querySelector(".date-element");
-            console.log("firstWeekday", firstWeekday); 
+            console.log("firstWeekday", firstWeekday);
 
-            let thisMonday = firstWeekday.innerText; 
+            let thisMonday = firstWeekday.innerText;
             console.log("currentMonday", thisMonday);
 
-            let day = new Date(thisMonday); 
+            let day = new Date(thisMonday);
 
-            day.setDate(day.getDate() - 7); 
-            console.log("day...", day); 
-    
-            calendar = createDates(day); 
-            console.log("calendarDates", calendar); 
-            showDates(calendar); }); 
+            day.setDate(day.getDate() - 7);
+            console.log("day...", day);
 
-            next.addEventListener("click", () => {
-                console.log("Gå framåt");
+            // TAGIT HÄRIFRÅN
+            calendar = createDates(day);
+            console.log("calendarDates", calendar);
+            showDates(calendar);
+        });
+
+        next.addEventListener("click", () => {
+            console.log("Gå framåt");
 
             // check first day now
             let firstWeekday = document.querySelector(".date-element");
-            console.log("firstWeekday", firstWeekday); 
-            let thisMonday = firstWeekday.innerText; 
+            console.log("firstWeekday", firstWeekday);
+
+            let thisMonday = firstWeekday.innerText;
             console.log("thisMonday", thisMonday);
 
             // en vecka tidigare... 
             // skapa först ett äkta datumobjekt av currentMonday 
-            let day = new Date(thisMonday); 
+            let day = new Date(thisMonday);
             // en vecka tidigare 
-            day.setDate(day.getDate() + 7); 
-            console.log("day...", day); 
+            day.setDate(day.getDate() + 7);
+            console.log("day...", day);
             // ändra innehållet i ul elementet 
             // hämta först veckans datum 
-            calendar = createDates(day); 
-            console.log("calendarDates", calendar); 
+            calendar = createDates(day);
+            console.log("calendarDates", calendar);
             showDates(calendar);
-            });
-
-
+        });
     </script>
 
 
