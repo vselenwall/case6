@@ -55,19 +55,8 @@
                 <form action="/index" method="post">
                     <label for="title">Title</label><br>
                     <input type="text" id="title" name="title" required><br>
-
                     <label for="date">Date</label>
                     <input type="date" id="date" name="date" value="2022-05-31" min="2022-01-01" max="2022-12-31">
-                    <!--<label for="date">Date</label>
-                    <select id="date" name="date">
-                        <option value="2 may">2 may</option>
-                        <option value="3 may">3 may</option>
-                        <option value="4 may">4 may</option>
-                        <option value="5 may">5 may</option>
-                        <option value="6 may">6 may</option>
-                        <option value="7 may">7 may</option>
-                        <option value="8 may">8 may</option>
-                    </select>-->
                     <br><br><input type="submit" id="addEvent" class="event-button" value="Create event">
                 </form>
             </div>
@@ -75,15 +64,12 @@
 
 
         <div id="eventBox"></div>
-        <br>
 
-        
-        
 
         <ul>
-            
+
             <button id="show-all">Show all events</button>
-            
+
             <% locals.events.forEach(element => { %>
             <li id="list">
                 <div id="element-date">
@@ -102,13 +88,6 @@
             <% }) %>
         </ul>
 
-  
-
-        <!--<ul id="calendar"> </ul>-->
-
-        <!-- <div id="testing"></div>-->
-
-        
 
     </main>
 
@@ -117,338 +96,190 @@
     <div id="overlay-bg"></div>
 
     <script>
+        // DELETE EVENT 
 
-
-
-    // DELETE EVENT 
-
-    async function deleteEvent(id) {
-        const response = await fetch(`/events/${id}`, {
-            method: "delete"
-        });
-        if (response.redirected) {
-            window.location.href = response.url;
-        }
-    }
-
-    // EDIT EVENT
-
-    async function editEvent(event) {
-
-        const container = event.target.parentElement;
-        const id = container.querySelector(".edit").getAttribute("data-id");
-        const title = container.querySelector(".element-title");
-        const date = container.querySelector("#element-date");
-
-        // Make content editable
-        if (!title.isContentEditable && !date.isContentEditable) {
-            title.contentEditable = true;
-            date.contentEditable = true;
-
-            // Save changes with checkmark button
-            event.target.innerHTML = '<i class="fa-solid fa-check"></i>';
-        } else {
-
-            // Save new quote w innertext
-            const newEvent = {
-                title: title.innerText,
-                date: date.innerText
-            };
-
+        async function deleteEvent(id) {
             const response = await fetch(`/events/${id}`, {
-                method: "put",
-                body: JSON.stringify(newEvent),
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                method: "delete"
             });
-
-            // Redirect
             if (response.redirected) {
                 window.location.href = response.url;
             }
         }
-    }
 
-    // Onclick edit event
-    document.querySelectorAll(".edit").forEach((btn) => (btn.onclick = editEvent));
+        // EDIT EVENT
 
-    // Show menu in header - add events
-    function showMenu() {
-        const menu = document.getElementById("event-creator");
-        const menuBg = document.getElementById("overlay-bg");
+        async function editEvent(event) {
 
-        if (menu.style.display === "none") {
-            menu.style.display = "block";
-            menuBg.style.display = "block";
-        } else {
-            menu.style.display = "none";
-            menuBg.style.display = "none";
+            const container = event.target.parentElement;
+            const id = container.querySelector(".edit").getAttribute("data-id");
+            const title = container.querySelector(".element-title");
+            const date = container.querySelector("#element-date");
+
+            // Make content editable
+            if (!title.isContentEditable && !date.isContentEditable) {
+                title.contentEditable = true;
+                date.contentEditable = true;
+
+                // Save changes with checkmark button
+                event.target.innerHTML = '<i class="fa-solid fa-check"></i>';
+            } else {
+
+                // Save new quote w innertext
+                const newEvent = {
+                    title: title.innerText,
+                    date: date.innerText
+                };
+
+                const response = await fetch(`/events/${id}`, {
+                    method: "put",
+                    body: JSON.stringify(newEvent),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+
+                // Redirect
+                if (response.redirected) {
+                    window.location.href = response.url;
+                }
+            }
         }
 
-    }
+        // Onclick edit event
+        document.querySelectorAll(".edit").forEach((btn) => (btn.onclick = editEvent));
 
-    /* const datum = document.getElementsByClassName("element-date");
+        // Show menu in header - add events
+        function showMenu() {
+            const menu = document.getElementById("event-creator");
+            const menuBg = document.getElementById("overlay-bg");
 
-     document.getElementById("testing").innerHTML = datum.filter(testFunction);
-
-     function testFunction(datum) {
-         return datum = "2022-05-02";
-     } */
-
-    // DATES
-
-    let date = new Date();
-
-    // Add day
-    date.setDate(date.getDate() - 7);
-    let yearMonthDay = date.toLocaleDateString();
-
-    // Weekday
-    let weekday = date.getDay();
-    console.log("it's this day: ", weekday);
-
-    // Johannna
-    let savedEvents = [];
-    // placera härunder - veckans datum
-    //let calendarDates = getWeekDates(date);
-    let calendarDay = createDates(date);
-
-    fetch("index/api", {
-            method: "GET"
-        })
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (events) {
-            //console.log("data", events);
-            savedEvents = events;
-            // PLACERA IN EGEN
-            //showWeekDates(calendarDates);
-            showDates(calendarDay);
-        })
-
-
-    function createDates(date) {
-        let day = new Date(date);
-        let weekday = day.getDay();
-        let daysBefore = -weekday;
-        let daysAfter = 7 + daysBefore;
-        let dates = [];
-        day.setDate(day.getDate() + daysBefore);
-
-        for (let i = daysBefore; i < daysAfter; i++) {
-            day.setDate(day.getDate() + 1);
-            let yearMonthDay = day.toLocaleDateString();
-            //let dd = day.getUTCDate();
-            //let testDay = d.getDay();
-            let obj = {
-                date: yearMonthDay,
-                dd: day.getUTCDate()
+            if (menu.style.display === "none") {
+                menu.style.display = "block";
+                menuBg.style.display = "block";
+            } else {
+                menu.style.display = "none";
+                menuBg.style.display = "none";
             }
 
-            dates.push(obj);
         }
 
-        return dates;
-    }
+        // DATES
+        let date = new Date();
 
-    // SHOW DATES  
+        date.setDate(date.getDate() - 7);
+        let yearMonthDay = date.toLocaleDateString();
 
-    let calendar = createDates(date);
-    console.log("calendar", calendar);
+        let weekday = date.getDay();
 
-    const calendarDates = document.getElementById("calendar-dates")
+        let savedEvents = [];
 
-    calendarDates.addEventListener("click", (event) => {
-        //console.log(event.target.getAttribute("data-date"));
+        let calendarDay = createDates(date);
+        fetch("index/api", {
+                method: "GET"
+            })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (events) {
+                savedEvents = events;
+                showDates(calendarDay);
+            })
 
-        // Div w dates in eventlist 
-        let elementDate = document.getElementById("element-date")
+        function createDates(date) {
+            let day = new Date(date);
+            let weekday = day.getDay();
+            let daysBefore = -weekday;
+            let daysAfter = 7 + daysBefore;
+            let dates = [];
+            day.setDate(day.getDate() + daysBefore);
+            for (let i = daysBefore; i < daysAfter; i++) {
+                day.setDate(day.getDate() + 1);
+                let yearMonthDay = day.toLocaleDateString();
+                let obj = {
+                    date: yearMonthDay,
+                    dd: day.getUTCDate()
+                }
+                dates.push(obj);
+            }
+            return dates;
+        }
+        // SHOW DATES  
+        let calendar = createDates(date);
 
-        // Div w dates in calendar
-        let dataDate = event.target.getAttribute("data-date")
+        const calendarDates = document.getElementById("calendar-dates")
+        calendarDates.addEventListener("click", (event) => {
 
-        console.log("element-date: ", elementDate.innerText);
+            // Div w dates in eventlist 
+            let elementDate = document.getElementById("element-date")
+            // Div w dates in calendar
+            let dataDate = event.target.getAttribute("data-date")
 
-        console.log("dataDate: ", dataDate);
-
-        let li = document.getElementById("list");
-
-        savedEvents.events.forEach(events => {
-
-            let result = savedEvents.events.filter((e) => {
-                return e.date === dataDate;
-            });
-
-            li.classList.add("remove-this");
-
-            if(result) {
-                li.classList.add("save");
-            } 
-            
-
-            console.log(result);
-
-        });
-
-        let showAll = document.getElementById("show-all");
-        showAll.addEventListener("click", showAllEvents)
-
-        function showAllEvents() {
             let li = document.getElementById("list");
-            /*li.classList.add("show-all");
-            console.log("Show all");*/
 
-            li.classList.remove("remove-this");
-            
-        };
+            savedEvents.events.forEach(events => {
+                let result = savedEvents.events.filter((e) => {
+                    return e.date === dataDate;
+                });
 
-        // if elementDate = dataDate filter from eventlist
-        /*if (elementDate.innerText == dataDate) {
+                result.forEach(events => {
+                    li.classList.add("remove-this");
+                });
 
 
-            let elementDateTwo = elementDate.innerText;
-
-            /*let result = savedEvents.events.filter(function (events) {
-                return events.id;
+                //console.log(result);
             });
+            let showAll = document.getElementById("show-all");
+            showAll.addEventListener("click", showAllEvents)
 
-            console.log("Events: ", savedEvents);
+            function showAllEvents() {
+                let li = document.getElementById("list");
+                li.classList.remove("remove-this");
 
-            const result = savedEvents.events.filter(
-            (events) => events.date.includes(dataDate[1]));
+            };
+        });
 
-            //showDates(result);
+        function showDates(dates) {
+            calendarDates.innerText = "";
+            dates.forEach(element => {
+                let div = document.createElement("div");
+                div.classList.add("date-element");
+                div.setAttribute("data-date", element.date);
 
-            // ANDERS
-              console.log(savedEvents.events);
-            let result = savedEvents.events.filter((e) => {
-                return e.date === element;
+                div.innerText = element.date;
+                calendarDates.appendChild(div);
+
             });
-
-            console.log("Rätt: ", result);
-
-            //console.log(elementDateTwo);
-
-            //return elementDateTwo;
-
-            //console.log("Rätt: ", result);
-
-
-        } else {
-            console.log("Funkar ej");
         }
 
-    }) */ });
+        // NAVIGATION
+        const previous = document.getElementById("previous");
+        const next = document.getElementById("next");
+        previous.addEventListener("click", () => {
 
-    //let dataDate = getAttribute("data-date")
-    //console.log("skriv ut datum", dataDate);
+            let firstWeekday = document.querySelector(".date-element");
 
-    function showDates(dates) {
+            let thisMonday = firstWeekday.innerText;
 
-        calendarDates.innerText = "";
+            let day = new Date(thisMonday);
+            day.setDate(day.getDate() - 7);
 
-        dates.forEach(element => {
-
-            let div = document.createElement("div");
-            div.classList.add("date-element");
-            div.setAttribute("data-date", element.date);
-
-
-            // EVENTINFO
-            /* const eventInfo = document.createElement("info-div");
-            eventInfo.classList.add("event-info"); */
-
-            // .date
-            div.innerText = element.date;
-            calendarDates.appendChild(div);
-
-            // SKAPA
-
-            /* const buttonsDiv = document.createElement("div");
-
-            const editBtn = document.createElement("edit-btn");
-
-            editBtn.innerHTML = "Edit"; */
-
-            // FINNS INTE
-           // buttonsDiv.appendChild(editBtn);
-
-            //div = document.createElement("div");
-
-            //match saved events
-          
-            //console.log(result);
-
-            /*if (result.length > 0) {
-                eventInfo.innerText = result[0].title;
-                eventInfo.appendChild(buttonsDiv);
-            }
-
-            div.appendChild(eventInfo);
-            calendarDates.appendChild(div); */
-
-
+            calendar = createDates(day);
+            showDates(calendar);
         });
-    }
+        next.addEventListener("click", () => {
 
-    /*let locals = './data/db.json';
+            let firstWeekday = document.querySelector(".date-element");
 
-    let result = locals.events.filter((element) => {
-            return element.date === element;
+            let thisMonday = firstWeekday.innerText;
+
+            let day = new Date(thisMonday);
+
+            day.setDate(day.getDate() + 7);
+
+            calendar = createDates(day);
+            showDates(calendar);
         });
-        console.log(result); */
-
-    // NAVIGATION
-
-    const previous = document.getElementById("previous");
-    const next = document.getElementById("next");
-
-    previous.addEventListener("click", () => {
-        console.log("Gå bakåt");
-
-        let firstWeekday = document.querySelector(".date-element");
-        console.log("firstWeekday", firstWeekday);
-
-        let thisMonday = firstWeekday.innerText;
-        console.log("currentMonday", thisMonday);
-
-        let day = new Date(thisMonday);
-
-        day.setDate(day.getDate() - 7);
-        console.log("day...", day);
-
-        // TAGIT HÄRIFRÅN
-        calendar = createDates(day);
-        console.log("calendarDates", calendar);
-        showDates(calendar);
-    });
-
-    next.addEventListener("click", () => {
-        console.log("Gå framåt");
-
-        // check first day now
-        let firstWeekday = document.querySelector(".date-element");
-        console.log("firstWeekday", firstWeekday);
-
-        let thisMonday = firstWeekday.innerText;
-        console.log("thisMonday", thisMonday);
-
-        // en vecka tidigare... 
-        // skapa först ett äkta datumobjekt av currentMonday 
-        let day = new Date(thisMonday);
-        // en vecka tidigare 
-        day.setDate(day.getDate() + 7);
-        console.log("day...", day);
-        // ändra innehållet i ul elementet 
-        // hämta först veckans datum 
-        calendar = createDates(day);
-        console.log("calendarDates", calendar);
-        showDates(calendar);
-    });
-
-
     </script>
 
 

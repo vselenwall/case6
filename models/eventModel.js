@@ -5,119 +5,81 @@ import fs from 'fs';
 
 const dbPath = './data/db.json';
 
-// add event 
-
-/*const eventsDB = JSON.parse(fs.readFileSync('./data/db.json', 'utf8'));
-
-const newEvent = {
-    title: "Drinks with friends",
-    date: "25/5"
-};
-
-eventsDB.push(newEvent);
-
-fs.writeFileSync('./data/db.json', JSON.stringify(eventsDB));*/
-
-
-//let result = JSON.parse(fs.readFileSync(dbPath, "utf-8"));
-//console.log(result);
-
-/*const eventModel = {
-    getEvents: function() {
-        return JSON.parse(fs.readFileSync(dbPath, "utf8")); 
-    }
-    //getEvent: function(title) {
-        //return this.getEvents().find((event) => event.title === title);
-    //}
-}
-
-export default eventModel; */
-
 const eventModel = {
-  getEvents: function (startDate, endDate) {
+  // get all events 
+  getEvents: function () {
     return JSON.parse(fs.readFileSync(dbPath, "utf8"));
-
-   /* if(!startDate || !endDate) {
-      return allEvents;
-    } else {
-      const eventsInInterval = allEvents.filter(events => {
-        const eventDateUnix = new Date(events.date).getTime();
-        const startDateUnix = new Date(startDate).getTime();
-        const endDateUnix = new Date(endDate).getTime();
-
-        return startDateUnix <= eventDateUnix && eventDateUnix <= endDateUnix;
-      })
-      return eventsInInterval;
-    } */
   },
+
+  // get specific event
   getEvent: function (id) {
     return this.getEvents().find((event) => event.id === id);
   },
+
+  // save event 
   saveEvents: function (events) {
     return fs.writeFileSync(dbPath, JSON.stringify(events));
   },
+  
   addEvent: function (title, date) {
-    // Model Method to write new quote into database
+    // get all events from db
     const allEvents = this.getEvents();
+
+    // add correct id
     const lastEvent = allEvents[allEvents.length - 1];
     const newId = (lastEvent?.id || 0) + 1;
 
-    // Create new quote object
+    // create new obj
     const newEvent = {
       id: newId,
       title,
       date
     };
 
-    // Update Javascript array with new quote
+    // push new event to all ev
     allEvents.push(newEvent);
 
-    // Write new state to DB
+    // save to db
     this.saveEvents(allEvents);
 
     return true;
   },
+
   removeEvent: function (id) {
-    // Get all quotes
+    // get all events from db
     const allEvents = this.getEvents();
-
-    console.log("a");
-
-    // if quotes are not defined we return false
-    // to signal that something went wrong
-    if (!allEvents) {
-      return false;
-    }
-
-    // Remove quote specified by id
+    
+    // filter event to remove
     const filteredEvents = allEvents.filter((event) => event.id !== id);
 
-    console.log("b");
-
-    // Write new state to db
+    // save filtered event
     this.saveEvents(filteredEvents);
-
-    console.log("c");
 
     return true;
   },
-   updateEvent: function (id, newTitle, newDate) {
 
+   updateEvent: function (id, newTitle, newDate) {
+    // get all events from db
     const allEvents = this.getEvents();
 
+    // find specific id to update
     const idi = allEvents.findIndex((event) => event.id === id);
 
-    if (idi < 0) {
-      return false;
-    }
-
+    // update new title and date
     allEvents[idi].title = newTitle;
     allEvents[idi].date = newDate;
 
+    // save events to db
     this.saveEvents(allEvents);
 
     return true;
-  } 
+  },
+
+  filterEvents: function (id) {
+    return this.getEvents().find((event) => event.id === id);
+    
+  },
+ 
 }
 
 export default eventModel;
