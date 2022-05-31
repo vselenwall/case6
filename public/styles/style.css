@@ -7,6 +7,7 @@
 
 body {
   background-color: #D9DAD8;
+  height: 720px;
 }
 
 header {
@@ -58,6 +59,7 @@ main {
   background-color: #D9DAD8;
   position: relative;
   margin-top: 0;
+  height: 370px;
 }
 
 .start-section {
@@ -135,6 +137,46 @@ main {
 .start-section .welcome a {
   text-decoration: none;
   color: #647C7B;
+}
+
+.create-calendar {
+  text-align: center;
+  padding: 2rem;
+  text-transform: uppercase;
+  margin: 2rem;
+  margin-top: 7rem;
+}
+
+.create-calendar h1 {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 300;
+  font-size: 2rem;
+  color: #647C7B;
+  letter-spacing: 0.3rem;
+  text-transform: uppercase;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+}
+
+.create-calendar .get-started {
+  background-color: #E5E5E5;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  font-family: "Poppins";
+  font-weight: 500;
+  color: #647C7B;
+  border-style: none;
+  -webkit-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+  z-index: 2;
+  margin-top: 2rem;
+}
+
+.create-calendar .get-started a {
+  text-decoration: none;
+  color: #647C7B;
+  padding: 2rem;
+  text-transform: uppercase;
+  font-family: "Quicksand", sans-serif;
 }
 
 .week-section {
@@ -277,8 +319,29 @@ main {
   z-index: 2;
 }
 
+#show-all {
+  border: none;
+  padding: 0.5rem;
+  text-align: center;
+  margin: auto;
+  width: 200px;
+  text-transform: uppercase;
+  font-size: 12px;
+  background-color: #D9DAD8;
+  color: #647C7B;
+  font-family: "Quicksand", sans-serif;
+  text-align: center;
+  display: -ms-grid;
+  display: grid;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 1rem;
+  text-shadow: 2rem;
+}
+
 ul {
-  margin-top: 7rem;
+  margin-top: 6rem;
 }
 
 ul li {
@@ -339,6 +402,15 @@ ul li .remove {
   background-color: #E5E5E5;
 }
 
+.remove-this {
+  display: none;
+  visibility: hidden;
+}
+
+.show-all {
+  visibility: visible;
+}
+
 footer {
   background-color: #647C7B;
   color: #E5E5E5;
@@ -347,8 +419,9 @@ footer {
   text-transform: uppercase;
   padding: 2.5rem;
   text-align: center;
-  margin-top: 29rem;
   width: 100%;
   letter-spacing: 0.2rem;
+  margin-bottom: 0;
+  margin-top: 7rem;
 }
 /*# sourceMappingURL=style.css.map */

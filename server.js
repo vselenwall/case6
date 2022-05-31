@@ -42,6 +42,13 @@ app.get('/start', (req, res) => {
     res.render('start');
 });
 
+app.get('/create', (req, res) => {
+   
+    // processa innehållet från en ejs fil
+    res.render('create');
+});
+
+
 app.use((req, res, next) => {
     res.locals.myNameIs = "Johan";
     next()
@@ -78,6 +85,7 @@ app.use('/default', routeDefault);*/
 app.get('/', (req, res) => {
     res.render('index');
 });
+
 
 // serve static files
 // -------------------------
