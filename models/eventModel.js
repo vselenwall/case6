@@ -74,11 +74,6 @@ const eventModel = {
 
     return true;
   },
-
-  filterEvents: function (id) {
-    return this.getEvents().find((event) => event.id === id);
-    
-  },
  
 }
 

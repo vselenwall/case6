@@ -1,7 +1,6 @@
 import express from 'express';
 import ejs from 'ejs';
 import eventController from './controllers/eventController.js';
-//import eventModels from './models/eventModels.js';
 import eventModel from "./models/eventModel.js";
 
 
@@ -17,7 +16,6 @@ const port = 3000;
 // -------------------------
 app.set('view engine', 'ejs');
 
-// TEST //
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -31,10 +29,8 @@ app.put('/events/:id', eventController.updateEvent);
 
 app.get('/index/api', eventController.getAllEventsApi);
 
-app.get('/events/api', eventController.filterEvents);
-
 // ##### HANDLE ROUTES #####
-// LISTEN TO /START
+
 app.get('/start', (req, res) => {
    
     // processa innehållet från en ejs fil
@@ -47,14 +43,11 @@ app.get('/create', (req, res) => {
     res.render('create');
 });
 
-
-// LISTEN TO /INDEX
 app.get('/index', (req, res) => {
    
     // processa innehållet från en ejs fil
     res.render('index');
 });
-
 
 // route request
 // -------------------------
